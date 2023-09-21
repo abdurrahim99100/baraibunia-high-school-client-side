@@ -25,7 +25,7 @@ const NavBar = () => {
                 </li>
             </> : <>
                 <li>
-                    <Link to="/">login</Link>
+                    <Link to="/login">login</Link>
                 </li>
             </>
         }
@@ -45,7 +45,7 @@ const NavBar = () => {
                     <Link to="/" className="text-xs lg:text-xl uppercase font-semibold">baraibunia high school</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal uppercase font-semibold">
+                    <ul className="menu menu-horizontal uppercase font-semibold text-[#09E7F1]">
                         {navOption}
                     </ul>
                 </div>
