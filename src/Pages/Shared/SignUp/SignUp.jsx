@@ -1,12 +1,30 @@
 import { Link } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { useForm } from "react-hook-form";
+import useAuth from "../../../Hooks/useAuth";
 
 const SignUp = () => {
+
+    const { createUser } = useAuth();
+
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = data => {
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
     const style = {
         background: "#09E7F1"
     }
     return (
-        <section className="h-screen container mx-auto">
+        <section className="container mx-auto">
             <div className="container h-full px-6 py-24">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -20,28 +38,36 @@ const SignUp = () => {
 
                     {/* <!-- Right column container with form --> */}
                     <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
-                        <label className="block text-center font-bold text-4xl my-2">Sign Up</label>
-                        <form>
+                        <label className="block text-center font-bold text-4xl my-2">
+                            <span>Sign Up</span>
+                        </label>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             {/* <!-- Name --> */}
                             <div className="relative mb-2" data-te-input-wrapper-init>
                                 <label>
                                     <span className="text-xl">Name</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" />
+                                <input type="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name"
+                                    {...register("name")}
+                                />
                             </div>
                             {/* <!-- Photo Url --> */}
                             <div className="relative mb-2" data-te-input-wrapper-init>
                                 <label>
                                     <span className="text-xl">Photo URL</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Photo URL" />
+                                <input type="url" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Photo URL"
+                                    {...register("photoURL")}
+                                />
                             </div>
                             {/* <!-- Email input --> */}
                             <div className="relative mb-2" data-te-input-wrapper-init>
                                 <label>
                                     <span className="text-xl">Email</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email address" />
+                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email address"
+                                    {...register("email")}
+                                />
                             </div>
 
                             {/* <!-- Password input --> */}
@@ -49,7 +75,9 @@ const SignUp = () => {
                                 <label>
                                     <span className="text-xl">Password</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" />
+                                <input type="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password"
+                                    {...register("password")}
+                                />
                             </div>
 
                             {/* <!-- Remember me checkbox --> */}
@@ -69,14 +97,15 @@ const SignUp = () => {
                                 >Forgot password?</a>
                             </div>
                             {/* <!-- Submit button --> */}
-                            <button
+                            <input
                                 type="submit"
                                 className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                 style={style}
                                 data-te-ripple-init
-                                data-te-ripple-color="light">
-                                Sign in
-                            </button>
+                                data-te-ripple-color="light"
+                                value={"Sign In"} />
+                        </form>
+                        <div>
                             <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                                 Have an account?
                                 <Link to="/login" className="text-green-500 transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"> Login</Link>
@@ -93,8 +122,7 @@ const SignUp = () => {
                             <div>
                                 <SocialLogin />
                             </div>
-                            {/* <!-- Social login buttons --> */}
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

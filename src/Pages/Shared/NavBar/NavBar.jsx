@@ -1,8 +1,20 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 
 const NavBar = () => {
 
-    const user = null;
+    const { user, logOutUser } = useAuth();
+
+    // lgoOut related code;
+    const handleLogOut = () => {
+        logOutUser()
+            .then(() => {
+                // signOut successfully;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     const navOption = <>
         <li>
@@ -21,7 +33,7 @@ const NavBar = () => {
         {
             user ? <>
                 <li>
-                    <Link to="/">logout</Link>
+                    <Link onClick={handleLogOut}>logout</Link>
                 </li>
             </> : <>
                 <li>
@@ -31,7 +43,7 @@ const NavBar = () => {
         }
     </>
     return (
-        <div className="bg-base-100">
+        <div className="bg-base-200">
             <div className="navbar container justify-between mx-auto">
                 <div className="navbar-start w-full">
                     <div className="dropdown">
@@ -45,7 +57,7 @@ const NavBar = () => {
                     <Link to="/" className="text-xs lg:text-xl uppercase font-semibold">baraibunia high school</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal uppercase font-semibold text-[#09E7F1]">
+                    <ul className="menu menu-horizontal uppercase font-semibold text-[#000000]">
                         {navOption}
                     </ul>
                 </div>

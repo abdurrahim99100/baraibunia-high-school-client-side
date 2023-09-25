@@ -1,13 +1,31 @@
 import { Link } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { useForm } from "react-hook-form";
+import useAuth from "../../../Hooks/useAuth";
 
 const Login = () => {
+
+    const { signInUser } = useAuth();
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = data => {
+        signInUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    // social media login button design;
     const style = {
         background: "#09E7F1"
     }
 
     return (
-        <section className="h-screen container mx-auto">
+        <section className="container mx-auto">
             <div className="container h-full px-6 py-24">
                 <div
                     className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -21,14 +39,18 @@ const Login = () => {
 
                     {/* <!-- Right column container with form --> */}
                     <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
-                        <label className="block text-center font-bold text-4xl my-2">Login</label>
-                        <form>
+                        <label className="block text-center font-bold text-4xl my-2">
+                            <span>Login</span>
+                        </label>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             {/* <!-- Email input --> */}
                             <div className="relative mb-2" data-te-input-wrapper-init>
                                 <label>
                                     <span className="text-xl">Email</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email address" />
+                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email address"
+                                    {...register("email")}
+                                />
                             </div>
 
                             {/* <!-- Password input --> */}
@@ -36,7 +58,9 @@ const Login = () => {
                                 <label>
                                     <span className="text-xl">Password</span>
                                 </label>
-                                <input type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" />
+                                <input type="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password"
+                                    {...register("password")}
+                                />
                             </div>
 
                             {/* <!-- Remember me checkbox --> */}
@@ -62,8 +86,10 @@ const Login = () => {
                                 style={style}
                                 data-te-ripple-init
                                 data-te-ripple-color="light">
-                                Sign in
+                                Login
                             </button>
+                        </form>
+                        <div>
                             <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                                 Don't have an account?
                                 <Link to="/signUp" className="text-green-500 transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"> Register</Link>
@@ -77,11 +103,11 @@ const Login = () => {
                                     OR
                                 </p>
                             </div>
+                            {/* social login */}
                             <div>
                                 <SocialLogin />
                             </div>
-                            {/* <!-- Social login buttons --> */}
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
