@@ -14,11 +14,17 @@ const NavBar = () => {
             .catch(error => {
                 console.log(error);
             })
-    }
+    };
 
     const navOption = <>
         <li>
             <Link to="/">home</Link>
+        </li>
+        <li>
+            <Link to="/enrollClasses">enroll-classes</Link>
+        </li>
+        <li>
+            <Link to="/postNewClass">class</Link>
         </li>
         <li>
             <Link to="/">result</Link>
@@ -34,6 +40,11 @@ const NavBar = () => {
             user ? <>
                 <li>
                     <Link onClick={handleLogOut}>logout</Link>
+                </li>
+                <li>
+                    <img src={user?.reloadUserInfo.photoUrl}
+                        style={{ borderRadius: '100%', maxWidth: '50px', padding: '5px' }}
+                    />
                 </li>
             </> : <>
                 <li>
@@ -57,7 +68,7 @@ const NavBar = () => {
                     <Link to="/" className="text-xs lg:text-xl uppercase font-semibold">baraibunia high school</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal uppercase font-semibold text-[#000000]">
+                    <ul className="menu menu-horizontal uppercase font-semibold text-[#000000] items-center">
                         {navOption}
                     </ul>
                 </div>

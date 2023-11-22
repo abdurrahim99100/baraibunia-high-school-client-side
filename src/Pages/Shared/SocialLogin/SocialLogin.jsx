@@ -1,5 +1,60 @@
+import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
+
+    const { googleSignIn, facebookSignIn } = useAuth();
+    const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
+
+    // google signIn related code;
+    const handleGoogleLogin = () => {
+        googleSignIn()
+            .then((result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                const sevUser = { name: loggedUser.displayName, email: loggedUser.email, roll: 'user' };
+                axiosSecure.post('/users', sevUser)
+                    .then(data => {
+                        if (data.data.insertedId) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'User created successfully.',
+                                showConfirmButton: false,
+                                timer: 2100
+                            });
+                            navigate('/');
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'User already created.',
+                                showConfirmButton: false,
+                                timer: 2100
+                            });
+                            navigate('/');
+                        }
+                    });
+            }))
+            .catch(error => console.log(error));
+    }
+
+    // facebook signIn related code;
+    const handleFacebookSignIn = () => {
+        facebookSignIn()
+            .then(result => {
+                const user = result.user;
+                console.log('facebook signIn result', result);
+                console.log(user);
+            })
+            .catch(error => console.log(error));
+    }
+
+    // social login button background design;
     const style = {
         background: "#09E7F1"
     }
@@ -7,6 +62,7 @@ const SocialLogin = () => {
         <div>
             {/* login facebook in firebase */}
             <a
+                onClick={handleFacebookSignIn}
                 className="mb-3 flex w-full items-center justify-center rounded bg-primary px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                 style={style}
                 href="#"
@@ -43,6 +99,7 @@ const SocialLogin = () => {
             </a>
             {/* login with google */}
             <a
+                onClick={handleGoogleLogin}
                 className="mb-3 flex w-full items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
                 style={style}
                 href="#!"
